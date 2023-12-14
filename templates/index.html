@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packet Capture</title>
+
+    <!-- Bootstrap CSS (local) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand mx-auto" href="#">Packet Capture</a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-9 mx-auto">
+                <h3 class="text-center">Packets</h3>
+                <table id="packetTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Source IP</th>
+                            <th>Destination IP</th>
+                            <th>Protocol</th>
+                            <th>Port</th>
+                            <th>Timestamp</th>
+                            <th>Length</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for packet in packets %}
+                        <tr>
+                            <td>{{ packet[0] }}</td>
+                            <td>{{ packet[1] }}</td>
+                            <td>{{ packet[2] }}</td>
+                            <td>{{ packet[3] }}</td>
+                            <td>{{ packet[4] }}</td>
+                            <td>{{ packet[5] }}</td>
+                            <td>{{ packet[6] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3 mx-auto text-left">
+                <h3>Start/Stop Capture</h3>
+                <button id="startCaptureBtn" class="btn btn-primary">Start Capture</button>
+                <button id="stopCaptureBtn" class="btn btn-danger" disabled>Stop Capture</button>
+
+                <!-- Search Packets Form -->
+                <h3 class="text-center">Search Packets</h3>
+                <form id="searchForm" method="post">
+                    <div class="form-group">
+                        <label for="search_term" class="text-left">Recherche:</label>
+                        <input type="text" class="form-control mx-auto" name="search_term" id="search_term" placeholder="Enter search term">
+                    </div>
+                    <div class="form-group">
+                        <label for="search_category" class="text-left">Catégorie:</label>
+                        <select class="form-control mx-auto" name="search_category" id="search_category">
+                            <option value="ip">Adresse IP</option>
+                            <option value="protocol">Protocole</option>
+                            <option value="port">Port</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary d-block mx-auto">Search</button>
+                </form>
+            </div>
+            <div class="col-md-12 mt-5 mx-auto text-center">
+                <h3>Statistics</h3>
+                <div id="chart"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="{{ url_for('static', filename='jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+
+    <!-- Plotly.js (local) -->
+    <script src="{{ url_for('static', filename='plotly.min.js') }}"></script>
+</body>
+</html>
